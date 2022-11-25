@@ -28,7 +28,7 @@ public class Chunk : MonoBehaviour
                 vertices.Add(triangleCoords);
                 triangles.Add(vertexIdx);
 
-                uvs.Add(Vector2.zero);
+                uvs.Add(VoxelData.voxelUvs[i]);
 
                 vertexIdx += 1;
             }

@@ -26,4 +26,15 @@ public static class VoxelData
         {4,7,0,0,7,3,},//top     face
         {1,2,5,5,2,6,},//top     face
     };
+
+    // https://youtu.be/h66IN1Pndd0?list=PLVsTSlfj0qsWEJ-5eMtXsYp03Y9yF1dEn&t=1969
+    public static readonly Vector2[] voxelUvs = new Vector2[6]
+    {
+        new Vector2(0,0),
+        new Vector2(0,1),
+        new Vector2(1,0),
+        new Vector2(1,0),
+        new Vector2(0,1),
+        new Vector2(1,1),
+    };
 }
