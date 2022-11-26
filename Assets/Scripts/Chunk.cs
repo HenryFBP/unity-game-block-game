@@ -5,11 +5,11 @@ using UnityEngine;
 //[ExtensionOfNativeClass]
 public class Chunk
 {
+    public ChunkCoord coord;
 
     GameObject chunkObject;
-
-     MeshRenderer meshRenderer;
-     MeshFilter meshFilter;
+    MeshRenderer meshRenderer;
+    MeshFilter meshFilter;
 
     int vertexIndex = 0;
     List<Vector3> vertices = new List<Vector3>();
@@ -20,23 +20,22 @@ public class Chunk
 
     World world;
 
-    //void Start()
-    //{
-
-    //    world = GameObject.Find("World").GetComponent<World>();
-
-
-    //}
-
-    public Chunk (World _world)
+    public Chunk(ChunkCoord _chunkCoord, World _world)
     {
         this.world = _world;
+        this.coord = _chunkCoord;
         this.chunkObject = new GameObject("ChunkObject");
         this.meshFilter = chunkObject.AddComponent<MeshFilter>();
-        this.meshRenderer= chunkObject.AddComponent<MeshRenderer>();
+        this.meshRenderer = chunkObject.AddComponent<MeshRenderer>();
 
         this.meshRenderer.material = world.material;
         chunkObject.transform.SetParent(world.transform);
+        chunkObject.transform.position = new Vector3(
+            coord.x *VoxelData.ChunkWidth, 
+            coord.y*VoxelData.ChunkHeight, 
+            coord.z*VoxelData.ChunkDepth
+        );
+        chunkObject.name = "Chunk " + coord.x + "," + coord.y + "," + coord.z + "";
 
         PopulateVoxelMap();
         CreateMeshData();
@@ -50,7 +49,7 @@ public class Chunk
         {
             for (int x = 0; x < VoxelData.ChunkWidth; x++)
             {
-                for (int z = 0; z < VoxelData.ChunkWidth; z++)
+                for (int z = 0; z < VoxelData.ChunkDepth; z++)
                 {
 
                     if (y == VoxelData.ChunkHeight - 1)
@@ -75,7 +74,7 @@ public class Chunk
         {
             for (int x = 0; x < VoxelData.ChunkWidth; x++)
             {
-                for (int z = 0; z < VoxelData.ChunkWidth; z++)
+                for (int z = 0; z < VoxelData.ChunkDepth; z++)
                 {
 
                     AddVoxelDataToChunk(new Vector3(x, y, z));
@@ -93,7 +92,9 @@ public class Chunk
         int y = Mathf.FloorToInt(pos.y);
         int z = Mathf.FloorToInt(pos.z);
 
-        if (x < 0 || x > VoxelData.ChunkWidth - 1 || y < 0 || y > VoxelData.ChunkHeight - 1 || z < 0 || z > VoxelData.ChunkWidth - 1)
+        if (x < 0 || x > VoxelData.ChunkWidth - 1 ||
+            y < 0 || y > VoxelData.ChunkHeight - 1 ||
+            z < 0 || z > VoxelData.ChunkDepth - 1)
             return false;
 
         return world.blocktypes[voxelMap[x, y, z]].isSolid;
@@ -164,4 +165,18 @@ public class Chunk
 
     }
 
+}
+
+public class ChunkCoord
+{
+    public int x;
+    public int z;
+    public int y;
+
+    public ChunkCoord(int _x, int _y, int _z)
+    {
+        this.x = _x;
+        this.y = _y;
+        this.z = _z;
+    }
 }

@@ -13,7 +13,8 @@ public class World : MonoBehaviour
     {
         print("itz da world bro");
 
-        Chunk chunk = new Chunk(this);
+        Chunk chunk = new Chunk(new ChunkCoord(0, 0, 0), this);
+        Chunk chunk2 = new Chunk(new ChunkCoord(1, 1, 1), this);
     }
 
     public BlockType getBlockTypeByName(string name)
