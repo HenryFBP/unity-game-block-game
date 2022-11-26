@@ -12,6 +12,8 @@ public class World : MonoBehaviour
     public void Start()
     {
         print("itz da world bro");
+
+        Chunk chunk = new Chunk(this);
     }
 
     public BlockType getBlockTypeByName(string name)

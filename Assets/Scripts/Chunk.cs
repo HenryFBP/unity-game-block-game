@@ -2,11 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Chunk : MonoBehaviour
+//[ExtensionOfNativeClass]
+public class Chunk
 {
 
-    public MeshRenderer meshRenderer;
-    public MeshFilter meshFilter;
+    GameObject chunkObject;
+
+     MeshRenderer meshRenderer;
+     MeshFilter meshFilter;
 
     int vertexIndex = 0;
     List<Vector3> vertices = new List<Vector3>();
@@ -17,15 +20,27 @@ public class Chunk : MonoBehaviour
 
     World world;
 
-    void Start()
-    {
+    //void Start()
+    //{
 
-        world = GameObject.Find("World").GetComponent<World>();
+    //    world = GameObject.Find("World").GetComponent<World>();
+
+
+    //}
+
+    public Chunk (World _world)
+    {
+        this.world = _world;
+        this.chunkObject = new GameObject("ChunkObject");
+        this.meshFilter = chunkObject.AddComponent<MeshFilter>();
+        this.meshRenderer= chunkObject.AddComponent<MeshRenderer>();
+
+        this.meshRenderer.material = world.material;
+        chunkObject.transform.SetParent(world.transform);
 
         PopulateVoxelMap();
         CreateMeshData();
         CreateMesh();
-
     }
 
     void PopulateVoxelMap()
